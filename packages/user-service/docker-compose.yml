@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  user-db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: users
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+    volumes:
+      - user-db-data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+
+  user-service:
+    build: .
+    depends_on:
+      - user-db
+    environment:
+      DB_HOST: user-db
+      DB_PORT: 5432
+      DB_USER: user
+      DB_PASSWORD: pass
+      DB_NAME: users
+      PORT: 4000
+    ports:
+      - "4000:4000"
+
+volumes:
+  user-db-data:
