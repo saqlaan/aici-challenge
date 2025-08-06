@@ -54,6 +54,7 @@ export class UserService {
     // Generate JWT
     const payload: JwtPayload = {
       userId: user.id,
+      userUuid: user.uuid,
       user_email: user.user_email,
     };
 

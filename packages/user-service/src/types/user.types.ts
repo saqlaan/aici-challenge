@@ -32,5 +32,6 @@ export interface LoginResponse {
 
 export interface JwtPayload {
   userId: number;
+  userUuid: string;
   user_email: string;
 }

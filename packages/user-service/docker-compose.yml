@@ -14,15 +14,10 @@ services:
 
   user-service:
     build: .
+    env_file:
+      - .env
     depends_on:
       - user-db
-    environment:
-      DB_HOST: user-db
-      DB_PORT: 5432
-      DB_USER: user
-      DB_PASSWORD: pass
-      DB_NAME: users
-      PORT: 4000
     ports:
       - "4000:4000"
 

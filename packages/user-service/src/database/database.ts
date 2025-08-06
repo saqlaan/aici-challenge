@@ -3,7 +3,7 @@ import { config } from '../config/config';
 
 
 const MAX_RETRIES = 10
-const RETRY_DELAY_MS = 2000 // 2 seconds
+const RETRY_DELAY_MS = 2000
 
 export class Database {
   private pool: Pool;
@@ -34,16 +34,16 @@ export class Database {
       try {
         const client = await this.pool.connect();
         client.release();
-        console.log('✅ Successfully connected to Postgres');
+        console.log('Success: Successfully connected to Postgres');
         return;
       } catch (error) {
         attempts++;
-        console.log(`🔁 Attempt ${attempts}/${MAX_RETRIES}: DB not ready - retrying in 2s...`);
+        console.log(`Info: Attempt ${attempts}/${MAX_RETRIES}: DB not ready - retrying in 2s...`);
         await new Promise((res) => setTimeout(res, RETRY_DELAY_MS));
       }
     }
 
-    throw new Error('❌ Could not connect to Postgres after max retries');
+    throw new Error('Error: Could not connect to Postgres after max retries');
   }
 
   async initializeSchema(): Promise<void> {
