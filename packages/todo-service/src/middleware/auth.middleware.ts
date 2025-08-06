@@ -25,6 +25,7 @@ export const authenticateToken = async (req: AuthRequest, res: Response, next: N
     // Verify and decode the JWT token
     const decoded = jwt.verify(token, config.jwtSecret) as JwtPayload;
     
+    console.log('Decoded JWT:', decoded);
     // Validate required fields in the JWT payload
     if (!decoded.userId || !decoded.userUuid || !decoded.user_email) {
       res.status(403).json({ error: 'Invalid token payload' });
