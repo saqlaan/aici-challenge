@@ -38,21 +38,17 @@ All components are built with **Node.js + TypeScript**, containerized using **Do
 ## 📁 Project Structure
 
 ```
-.
+
 ├── docker-compose.yml
-├── user-service/
-│   ├── Dockerfile
-│   ├── src/
-│   └── ...
-├── todo-service/
-│   ├── Dockerfile
-│   ├── src/
-│   └── ...
 ├── packages/
-│   └── app/  # optional frontend
+│   ├── user-service/
+│   │   ├── Dockerfile
+│   │   └── src/
+│   ├── todo-service/
+│   │   ├── Dockerfile
+│   │   └── src/
+│   └── app/
 └── docs/
-    ├── postman_collection.json
-    └── openapi.yaml
 ```
 
 ---
@@ -92,18 +88,17 @@ docker-compose up --build
 > - `frontend`: http://localhost:3000
 ---
 
-## 🔐 Auth Flow
+## 🔐 Flow
 
-- Register/Login via `user-service`
-- Receive JWT on successful login
-- Send JWT as `Authorization: Bearer <token>` to access `todo-service` endpoints
+- Register/Login on the app
+- CRUD todo items
 
 ---
 
 ## 📚 API Documentation
 
-- Postman collection: [`docs/postman_collection.json`](./docs/postman_collection.json)
-- OpenAPI spec: [`docs/openapi.yaml`](./docs/openapi.yaml)
+- User Service: http://localhost:4000/api-docs
+- Todo Service: http://localhost:4001/api-docs
 
 ---
 
