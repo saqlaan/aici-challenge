@@ -1,0 +1,34 @@
+{
+  "name": "aici-challenge",
+  "version": "1.0.0",
+  "description": "Full-stack todo application with microservices",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "docker-compose up",
+    "dev:build": "docker-compose up --build",
+    "dev:clean": "docker-compose down -v",
+    "dev:logs": "docker-compose logs -f",
+    "dev:restart": "docker-compose restart",
+    "dev:stop": "docker-compose down",
+    "install:all": "npm install && npm run install:packages",
+    "install:packages": "npm install --workspace=packages/user-service && npm install --workspace=packages/todo-service && npm install --workspace=packages/app",
+    "build:all": "npm run build --workspace=packages/user-service && npm run build --workspace=packages/todo-service && npm run build --workspace=packages/app",
+    "test:all": "npm run test --workspace=packages/user-service && npm run test --workspace=packages/todo-service && npm run test --workspace=packages/app",
+    "lint:all": "npm run lint --workspace=packages/user-service && npm run lint --workspace=packages/todo-service && npm run lint --workspace=packages/app",
+    "start:user": "npm run dev --workspace=packages/user-service",
+    "start:todo": "npm run dev --workspace=packages/todo-service", 
+    "start:app": "npm run dev --workspace=packages/app",
+    "db:init": "docker-compose exec postgres psql -U postgres -f /docker-entrypoint-initdb.d/init-db.sql",
+    "db:reset": "docker-compose down -v && docker-compose up -d postgres && sleep 5 && npm run db:init"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
+}

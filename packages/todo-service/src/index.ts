@@ -19,8 +19,6 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs, swaggerUiOptions));
 
 app.use('/api/todos', todoRoutes);
 
-console.log("Secret:", config.jwtSecret);
-
 /**
  * @swagger
  * /health:
