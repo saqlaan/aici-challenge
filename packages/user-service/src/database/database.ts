@@ -1,7 +1,6 @@
 import { Pool } from 'pg';
 import { config } from '../config/config';
 
-
 const MAX_RETRIES = 10
 const RETRY_DELAY_MS = 2000
 
@@ -47,7 +46,6 @@ export class Database {
   }
 
   async initializeSchema(): Promise<void> {
-    // Enable UUID extension
     const enableUuidExtension = `
       CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
     `;

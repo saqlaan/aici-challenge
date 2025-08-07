@@ -22,17 +22,13 @@ export const authenticateToken = async (req: AuthRequest, res: Response, next: N
       return;
     }
 
-    // Verify and decode the JWT token
     const decoded = jwt.verify(token, config.jwtSecret) as JwtPayload;
     
-    console.log('Decoded JWT:', decoded);
-    // Validate required fields in the JWT payload
     if (!decoded.userId || !decoded.userUuid || !decoded.user_email) {
       res.status(403).json({ error: 'Invalid token payload' });
       return;
     }
 
-    // Set user data on request object
     req.user = decoded;
     req.userUuid = decoded.userUuid; // Convenient access to UUID
     
