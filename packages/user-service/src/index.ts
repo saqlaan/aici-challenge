@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs, swaggerUiOptions));
 
 // Routes
-app.use('/api/users', userRoutes);
+app.use('/user', userRoutes);
 
 // Health check
 /**

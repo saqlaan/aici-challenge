@@ -28,6 +28,7 @@ services:
       - "4000:4000"
     env_file:
       - ./packages/user-service/.env
+      - .env
     environment:
       - NODE_ENV=development
     depends_on:
@@ -49,6 +50,7 @@ services:
       - "4001:4001"
     env_file:
       - ./packages/todo-service/.env
+      - .env
     environment:
       - NODE_ENV=development
     depends_on:
