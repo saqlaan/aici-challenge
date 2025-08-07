@@ -36,7 +36,7 @@ A Next.js frontend application for managing todo items with user authentication.
    npm run dev
    ```
 
-4. Open [http://localhost:3002](http://localhost:3002) in your browser.
+4. Open [http://localhost:3002](http://localhost:3000) in your browser.
 
 ## Build for Production
 
