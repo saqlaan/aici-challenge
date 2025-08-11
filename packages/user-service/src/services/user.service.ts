@@ -1,8 +1,8 @@
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import jwt, { SignOptions } from 'jsonwebtoken';
 import { database } from '../database/database';
 import { CreateUserDto, LoginDto, User, UserResponse, LoginResponse, JwtPayload } from '../types/user.types';
-import { config } from '../config/config';
+import { config } from '../config/app.config';
 
 export class UserService {
   async createUser(userData: CreateUserDto): Promise<UserResponse> {
@@ -51,19 +51,15 @@ export class UserService {
       throw new Error('Invalid credentials');
     }
 
-    // Generate JWT
     const payload: JwtPayload = {
       userId: user.id,
       userUuid: user.uuid,
       user_email: user.user_email,
     };
 
-
-    const token = jwt.sign(payload, config.jwtSecret, 
-    //     {
-    //   expiresIn: config.jwtExpiresIn,
-    // }
-);
+    const token = jwt.sign(payload, config.jwtSecret, {
+      expiresIn: config.jwtExpiresIn as any,
+    });
 
     const userResponse: UserResponse = {
       id: user.id,

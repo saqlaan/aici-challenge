@@ -2,29 +2,25 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { UserService } from '../services/user.service';
 import { database } from '../database/database';
-import { config } from '../config/config';
+import { config } from '../config/app.config';
 
-// Mock dependencies
 jest.mock('bcryptjs');
 jest.mock('jsonwebtoken');
 jest.mock('../database/database');
-jest.mock('../config/config');
+jest.mock('../config/app.config');
 
 const mockedBcrypt = bcrypt as jest.Mocked<typeof bcrypt>;
 const mockedJwt = jwt as jest.Mocked<typeof jwt>;
 const mockedDatabase = database as jest.Mocked<typeof database>;
 const mockedConfig = config as jest.Mocked<typeof config>;
 
+console.log('Mocked Config:', mockedConfig);
 describe('UserService', () => {
   let userService: UserService;
 
   beforeEach(() => {
     jest.clearAllMocks();
     userService = new UserService();
-    
-    // Set up default config mock
-    mockedConfig.jwtSecret = 'test-secret';
-    mockedConfig.jwtExpiresIn = '1h';
   });
 
   describe('createUser - User Registration User Story', () => {
@@ -179,7 +175,8 @@ describe('UserService', () => {
           userUuid: mockUser.uuid,
           user_email: mockUser.user_email
         },
-        'test-secret'
+        'test-secret',
+        {"expiresIn": "24h"}
       );
 
       expect(result).toEqual({

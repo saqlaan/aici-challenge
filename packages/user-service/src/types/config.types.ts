@@ -9,6 +9,6 @@ export interface DatabaseConfig {
 export interface AppConfig {
   port: number;
   jwtSecret: string;
-  jwtExpiresIn: string;
+  jwtExpiresIn: string | number;
   database: DatabaseConfig;
 }

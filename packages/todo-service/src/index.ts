@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import swaggerUi from 'swagger-ui-express';
-import { config } from './config/config';
+import { config } from './config/app.config';
 import { database } from './database/database';
 import { specs, swaggerUiOptions } from './config/swagger.config';
 import todoRoutes from './routes/todo.routes';
@@ -14,7 +14,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Swagger API documentation
+// Swaggepr API documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs, swaggerUiOptions));
 
 app.use('/api/todos', todoRoutes);

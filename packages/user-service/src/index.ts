@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import swaggerUi from 'swagger-ui-express';
-import { config } from './config/config';
+import { config } from './config/app.config';
 import { database } from './database/database';
 import { specs, swaggerUiOptions } from './config/swagger.config';
 import userRoutes from './routes/user.routes';

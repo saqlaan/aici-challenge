@@ -1,5 +1,5 @@
 import { Pool } from 'pg';
-import { config } from '../config/config';
+import { config } from '../config/app.config';
 
 const MAX_RETRIES = 10
 const RETRY_DELAY_MS = 2000

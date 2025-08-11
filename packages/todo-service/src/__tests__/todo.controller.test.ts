@@ -15,7 +15,7 @@ describe('Todo Controller', () => {
     
     app = express();
     app.use(express.json());
-
+    
     // Mock middleware to set user
     app.use((req: any, res, next) => {
       req.user = { userId: 1, userUuid: '123e4567-e89b-12d3-a456-426614174000', user_email: 'test@example.com' };

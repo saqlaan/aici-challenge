@@ -1,0 +1,8 @@
+process.env.PORT="4000"
+process.env.DB_HOST="postgres"
+process.env.DB_PORT="5432"
+process.env.DB_NAME="usersdb"
+process.env.DB_USER="user"
+process.env.DB_PASSWORD="pass"
+process.env.JWT_EXPIRES_IN="24h"
+process.env.JWT_SECRET="test-secret"

@@ -2,12 +2,13 @@ import { Router } from 'express';
 import { userController } from '../controllers/user.controller';
 import { registerValidation, loginValidation } from '../middleware/validation.middleware';
 import { authenticateToken } from '../middleware/auth.middleware';
+import { rateLimiterMiddleware } from '../middleware/rateLimiter.middleware';
 
 const router = Router();
 
 /**
  * @swagger
- * /api/users/register:
+ * /user/register:
  *   post:
  *     summary: Register a new user
  *     tags: [Authentication]
@@ -53,7 +54,7 @@ router.post('/register', registerValidation, userController.register);
 
 /**
  * @swagger
- * /api/users/login:
+ * /user/login:
  *   post:
  *     summary: Login user
  *     tags: [Authentication]
@@ -89,58 +90,11 @@ router.post('/register', registerValidation, userController.register);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.post('/login', loginValidation, userController.login);
+router.post('/login', rateLimiterMiddleware, loginValidation, userController.login);
 
 /**
  * @swagger
- * /api/users/verify-token:
- *   post:
- *     summary: Verify JWT token
- *     tags: [Authentication]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/TokenVerifyRequest'
- *     responses:
- *       200:
- *         description: Token verification result
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/TokenVerifyResponse'
- *       400:
- *         description: Token is required
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
- *       401:
- *         description: Invalid token
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 valid:
- *                   type: boolean
- *                   example: false
- *                 error:
- *                   type: string
- *                   example: Invalid token
- *       404:
- *         description: User not found
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
- */
-router.post('/verify-token', userController.verifyToken);
-
-/**
- * @swagger
- * /api/users/profile:
+ * /user/profile:
  *   get:
  *     summary: Get user profile
  *     tags: [User]

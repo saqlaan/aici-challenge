@@ -6,7 +6,6 @@ import { validationResult } from 'express-validator';
 
 jest.mock('../services/user.service');
 jest.mock('express-validator');
-
 const mockedUserService = userService as jest.Mocked<typeof userService>;
 const mockedValidationResult = validationResult as jest.MockedFunction<typeof validationResult>;
 
@@ -322,95 +321,6 @@ describe('User Controller', () => {
       expect(response.status).toBe(500);
       expect(response.body.error).toBe('Internal server error');
       expect(mockedUserService.findUserById).toHaveBeenCalledWith(1);
-    });
-  });
-
-  describe('POST /verify-token', () => {
-    beforeEach(() => {
-      app.post('/verify-token', userController.verifyToken);
-    });
-
-    it('should verify token successfully', async () => {
-      const mockDecoded = { userId: 1, userUuid: '123e4567-e89b-12d3-a456-426614174000', user_email: 'test@example.com' };
-      const mockUser = {
-        id: 1,
-        uuid: '123e4567-e89b-12d3-a456-426614174000',
-        user_email: 'test@example.com',
-        created_at: new Date(),
-        updated_at: new Date(),
-      };
-
-      mockedUserService.verifyToken.mockReturnValue(mockDecoded);
-      mockedUserService.findUserById.mockResolvedValue(mockUser);
-
-      const response = await request(app)
-        .post('/verify-token')
-        .send({
-          token: 'valid-jwt-token',
-        });
-
-      expect(response.status).toBe(200);
-      expect(response.body.valid).toBe(true);
-      expect(response.body.user).toEqual(mockDecoded);
-      expect(mockedUserService.verifyToken).toHaveBeenCalledWith('valid-jwt-token');
-      expect(mockedUserService.findUserById).toHaveBeenCalledWith(1);
-    });
-
-    it('should return 400 if token is missing', async () => {
-      const response = await request(app)
-        .post('/verify-token')
-        .send({});
-
-      expect(response.status).toBe(400);
-      expect(response.body.error).toBe('Token is required');
-    });
-
-    it('should return 401 for invalid token', async () => {
-      mockedUserService.verifyToken.mockImplementation(() => {
-        throw new Error('Invalid token');
-      });
-
-      const response = await request(app)
-        .post('/verify-token')
-        .send({
-          token: 'invalid-token',
-        });
-
-      expect(response.status).toBe(401);
-      expect(response.body.valid).toBe(false);
-      expect(response.body.error).toBe('Invalid token');
-    });
-
-    it('should return 404 if user not found after token verification', async () => {
-      const mockDecoded = { userId: 999, userUuid: 'non-existent', user_email: 'test@example.com' };
-
-      mockedUserService.verifyToken.mockReturnValue(mockDecoded);
-      mockedUserService.findUserById.mockResolvedValue(null);
-
-      const response = await request(app)
-        .post('/verify-token')
-        .send({
-          token: 'valid-token-but-user-deleted',
-        });
-
-      expect(response.status).toBe(404);
-      expect(response.body.error).toBe('User not found');
-    });
-
-    it('should return 401 for token verification errors', async () => {
-      mockedUserService.verifyToken.mockImplementation(() => {
-        throw new Error('Token expired');
-      });
-
-      const response = await request(app)
-        .post('/verify-token')
-        .send({
-          token: 'expired-token',
-        });
-
-      expect(response.status).toBe(401);
-      expect(response.body.valid).toBe(false);
-      expect(response.body.error).toBe('Invalid token');
     });
   });
 });

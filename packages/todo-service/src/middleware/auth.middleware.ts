@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { config } from '../config/config';
+import { config } from '../config/app.config';
 import { JwtPayload } from '../types/todo.types';
 
 export interface AuthRequest extends Request {

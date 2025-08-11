@@ -75,35 +75,6 @@ export class UserController {
       res.status(500).json({ error: 'Internal server error' });
     }
   }
-
-  async verifyToken(req: Request, res: Response): Promise<void> {
-    try {
-      const { token } = req.body;
-      
-      if (!token) {
-        res.status(400).json({ error: 'Token is required' });
-        return;
-      }
-
-      const decoded = userService.verifyToken(token);
-      const user = await userService.findUserById(decoded.userId);
-      
-      if (!user) {
-        res.status(404).json({ error: 'User not found' });
-        return;
-      }
-
-      res.json({ 
-        valid: true, 
-        user: decoded 
-      });
-    } catch (error) {
-      res.status(401).json({ 
-        valid: false, 
-        error: 'Invalid token' 
-      });
-    }
-  }
 }
 
 export const userController = new UserController();
